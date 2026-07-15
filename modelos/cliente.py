@@ -1,17 +1,13 @@
-class Cliente:                                         
-    def __init__(self, nombre, apellido, telefono, email):  
-        self.id = None      
-        self.nombre = nombre    
-        self.apellido = apellido       
-        self.telefono = telefono  
-        self.email = email     
-    
-    def __str__(self):            
-        return f"[{self.id}] {self.apellido}, {self.nombre} | Tel: {self.telefono} | {self.email}"
+class Cliente:
+    def __init__(self, nombre, apellido, telefono, email):
+        self.id = None
+        self.nombre = nombre
+        self.apellido = apellido
+        self.telefono = telefono
+        self.email = email
 
     def to_dict(self):
-        return 
-        {
+        return {
             "id": self.id,
             "nombre": self.nombre,
             "apellido": self.apellido,
@@ -19,7 +15,11 @@ class Cliente:
             "email": self.email
         }
 
-    def from_dict(d):
-        c = Cliente(d["nombre"], d["apellido"], d["telefono"], d["email"])
-        c.id = d["id"]
+    @classmethod
+    def from_dict(cls, datos):
+        c = cls(datos["nombre"], datos["apellido"], datos["telefono"], datos["email"])
+        c.id = datos["id"]
         return c
+
+    def __str__(self):
+        return f"[{self.id}] {self.apellido}, {self.nombre} | {self.telefono} | {self.email}"

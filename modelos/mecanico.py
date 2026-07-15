@@ -4,9 +4,6 @@ class Mecanico:
         self.nombre = nombre
         self.apellido = apellido
         self.especialidad = especialidad
-        
-    def __str__(self):
-        return f"[{self.id}] {self.apellido}, {self.nombre} | Especialidad: {self.especialidad}"
 
     def to_dict(self):
         return {
@@ -16,7 +13,11 @@ class Mecanico:
             "especialidad": self.especialidad
         }
 
-    def from_dict(d):
-        m = Mecanico(d["nombre"], d["apellido"], d["especialidad"])
-        m.id = d["id"]
+    @classmethod
+    def from_dict(cls, datos):
+        m = cls(datos["nombre"], datos["apellido"], datos["especialidad"])
+        m.id = datos["id"]
         return m
+
+    def __str__(self):
+        return f"[{self.id}] {self.apellido}, {self.nombre} | Especialidad: {self.especialidad}"

@@ -5,10 +5,7 @@ class Vehiculo:
         self.marca = marca
         self.modelo = modelo
         self.anio = anio
-        self.id_cliente = id_cliente  
-        
-    def __str__(self):
-        return f"[{self.id}] {self.marca.upper()} {self.modelo} | Placa: {self.placa.upper()} | Año: {self.anio} (Cliente ID: {self.id_cliente})"
+        self.id_cliente = id_cliente
 
     def to_dict(self):
         return {
@@ -20,7 +17,11 @@ class Vehiculo:
             "id_cliente": self.id_cliente
         }
 
-    def from_dict(d):
-        v = Vehiculo(d["placa"], d["marca"], d["modelo"], d["anio"], d["id_cliente"])
-        v.id = d["id"]
+    @classmethod
+    def from_dict(cls, datos):
+        v = cls(datos["placa"], datos["marca"], datos["modelo"], datos["anio"], datos["id_cliente"])
+        v.id = datos["id"]
         return v
+
+    def __str__(self):
+        return f"[{self.id}] Placa: {self.placa} | {self.marca} {self.modelo} ({self.anio}) | Cliente ID: {self.id_cliente}"

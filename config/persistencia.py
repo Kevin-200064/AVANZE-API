@@ -12,12 +12,13 @@ ARCHIVO_VEHICULOS = os.path.join(_BASE, "datos_vehiculos.json")
 ARCHIVO_MECANICOS = os.path.join(_BASE, "datos_mecanicos.json")
 ARCHIVO_ORDENES = os.path.join(_BASE, "datos_ordenes.json")
 
-# --- CLIENTES ---
+
 def guardar_clientes(cdao):
     datos = [c.to_dict() for c in cdao.obtener_todos()]
     with open(ARCHIVO_CLIENTES, "w", encoding="utf-8") as f:
         json.dump(datos, f, indent=4, ensure_ascii=False)
     print(f" OK Clientes guardados en '{ARCHIVO_CLIENTES}'")
+
 
 def cargar_clientes(cdao):
     try:
@@ -32,12 +33,13 @@ def cargar_clientes(cdao):
     except FileNotFoundError:
         print(f" AVISO: No existe '{ARCHIVO_CLIENTES}', se empieza desde cero")
 
-# --- VEHÍCULOS ---
+
 def guardar_vehiculos(vdao):
     datos = [v.to_dict() for v in vdao.obtener_todos()]
     with open(ARCHIVO_VEHICULOS, "w", encoding="utf-8") as f:
         json.dump(datos, f, indent=4, ensure_ascii=False)
     print(f" OK Vehículos guardados en '{ARCHIVO_VEHICULOS}'")
+
 
 def cargar_vehiculos(vdao):
     try:
@@ -52,12 +54,13 @@ def cargar_vehiculos(vdao):
     except FileNotFoundError:
         print(f" AVISO: No existe '{ARCHIVO_VEHICULOS}', se empieza desde cero")
 
-# --- MECÁNICOS ---
+
 def guardar_mecanicos(mdao):
     datos = [m.to_dict() for m in mdao.obtener_todos()]
     with open(ARCHIVO_MECANICOS, "w", encoding="utf-8") as f:
         json.dump(datos, f, indent=4, ensure_ascii=False)
     print(f" OK Mecánicos guardados en '{ARCHIVO_MECANICOS}'")
+
 
 def cargar_mecanicos(mdao):
     try:
@@ -72,12 +75,13 @@ def cargar_mecanicos(mdao):
     except FileNotFoundError:
         print(f" AVISO: No existe '{ARCHIVO_MECANICOS}', se empieza desde cero")
 
-# --- ÓRDENES DE TRABAJO ---
+
 def guardar_ordenes(odao):
     datos = [o.to_dict() for o in odao.obtener_todos()]
     with open(ARCHIVO_ORDENES, "w", encoding="utf-8") as f:
         json.dump(datos, f, indent=4, ensure_ascii=False)
     print(f" OK Órdenes guardadas en '{ARCHIVO_ORDENES}'")
+
 
 def cargar_ordenes(odao):
     try:
@@ -91,6 +95,3 @@ def cargar_ordenes(odao):
         print(f" OK {len(datos)} órdenes cargadas desde '{ARCHIVO_ORDENES}'")
     except FileNotFoundError:
         print(f" AVISO: No existe '{ARCHIVO_ORDENES}', se empieza desde cero")
-    
-
-
