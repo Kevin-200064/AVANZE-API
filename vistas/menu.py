@@ -1,5 +1,5 @@
 from modelos.cliente import Cliente
-from dao.cliente_dao import RUCDuplicadoError, ClienteNoEncontradoError
+from dao.cliente_dao import ClienteNoEncontradoError
 from modelos.vehiculo import Vehiculo
 from dao.vehiculo_dao import PlacaDuplicadaError, VehiculoNoEncontradoError
 from modelos.mecanico import Mecanico
@@ -36,14 +36,11 @@ def mostrar_menu(cfg):
 def agregar_cliente(cdao):
     print("\n--- AGREGAR CLIENTE ---")
     nombre = input(" Nombre : ")
-    ruc = input(" RUC : ")
-    email = input(" Email : ")
+    apellido = input(" Apellido : ")
     telefono = input(" Teléfono : ")
-    try:
-        c = cdao.insertar(Cliente(nombre, ruc, email, telefono))
-        print(f" OK Cliente agregado con ID={c.id}")
-    except RUCDuplicadoError as ex:
-        print(f" ERROR: {ex}")
+    email = input(" Email : ")
+    c = cdao.insertar(Cliente(nombre, apellido, telefono, email))
+    print(f" OK Cliente agregado con ID={c.id}")
 
 def listar_todocliente(cdao):
     print("\n--- CLIENTES ---")
@@ -59,9 +56,16 @@ def actualizar_cliente(cdao):
     try:
         cliente_id = int(input(" ID del cliente a actualizar: "))
         nombre = input(" Nuevo nombre (Enter para no cambiar): ").strip()
-        email = input(" Nuevo email (Enter para no cambiar): ").strip()
+        apellido = input(" Nuevo apellido (Enter para no cambiar): ").strip()
         telefono = input(" Nuevo teléfono (Enter para no cambiar): ").strip()
-        c = cdao.actualizar(cliente_id, nombre or None, email or None, telefono or None)
+        email = input(" Nuevo email (Enter para no cambiar): ").strip()
+        c = cdao.actualizar(
+            cliente_id, 
+            nombre or None, 
+            apellido or None, 
+            telefono or None, 
+            email or None
+        )
         print(f" OK Cliente actualizado: {c}")
     except ClienteNoEncontradoError as ex:
         print(f" ERROR: {ex}")
@@ -91,7 +95,6 @@ def agregar_vehiculo(vdao, cdao):
         if not cdao.buscar_por_id(id_cliente):
             print(f" ERROR: El Cliente con ID={id_cliente} no existe")
             return
-
         v = vdao.insertar(Vehiculo(placa, marca, modelo, anio, id_cliente))
         print(f" OK Vehículo agregado con ID={v.id}")
     except PlacaDuplicadaError as ex:
@@ -152,6 +155,7 @@ def listar_todomecanico(mdao):
     else:
         print(" (No hay mecánicos registrados)")
 
+
 def actualizar_mecanico(mdao):
     print("\n--- ACTUALIZAR MECÁNICO ---")
     try:
@@ -164,6 +168,7 @@ def actualizar_mecanico(mdao):
     except ValueError:
         print(" ERROR: El ID debe ser un número entero")
 
+
 def eliminar_mecanico(mdao):
     print("\n--- ELIMINAR MECÁNICO ---")
     try:
@@ -174,6 +179,7 @@ def eliminar_mecanico(mdao):
         print(f" ERROR: {ex}")
     except ValueError:
         print(" ERROR: El ID debe ser un número entero")
+
 
 def agregar_orden(odao, vdao, mdao):
     print("\n--- CREAR ÓRDEN DE TRABAJO ---")
@@ -198,7 +204,6 @@ def agregar_orden(odao, vdao, mdao):
     except ValueError:
         print(" ERROR: El ID del vehículo/mecánico debe ser entero y el costo un número")
 
-
 def listar_todoorden(odao):
     print("\n--- ÓRDENES DE TRABAJO ---")
     ordenes = odao.obtener_todos()
@@ -208,14 +213,15 @@ def listar_todoorden(odao):
     else:
         print(" (No hay órdenes de trabajo registradas)")
 
-
 def actualizar_orden(odao, mdao):
     print("\n--- ACTUALIZAR ÓRDEN DE TRABAJO ---")
     try:
         orden_id = int(input(" ID de la orden a actualizar: "))
         estado = input(" Nuevo estado (pendiente/proceso/listo) (Enter para no cambiar): ").strip().lower()
+        
         costo_str = input(" Nuevo costo estimado (S/.) (Enter para no cambiar): ").strip()
         costo = float(costo_str) if costo_str else None
+
         mecanico_str = input(" Nuevo ID de Mecánico (Enter para no cambiar): ").strip()
         id_mecanico = int(mecanico_str) if mecanico_str else None
 
